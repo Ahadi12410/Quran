@@ -1,0 +1,1188 @@
+<html><head><base href="https://quran.com/"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Enhanced Quran App with Search</title><link href="https://fonts.googleapis.com/css2?family=Carattere&display=swap" rel="stylesheet"><style>
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+}
+
+.container {
+    max-width: 100%;
+    padding: 10px;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.header-button {
+    flex: 1 0 calc(50% - 10px);
+    margin: 5px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.header-button:hover {
+    background-color: #2980b9;
+}
+
+.section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ayah {
+    font-size: 20px;
+    line-height: 1.6;
+    text-align: right;
+    direction: rtl;
+    margin-bottom: 10px;
+}
+
+.translation {
+    font-style: italic;
+    color: #34495e;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.surah-list {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.surah-list li {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.surah-list li:hover {
+    background-color: #2980b9;
+}
+
+.bookmark-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.bookmark-list li {
+    background-color: #ecf0f1;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.share-button, .bookmark-button, .download-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+
+.share-button:hover, .bookmark-button:hover, .download-button:hover {
+    background-color: #27ae60;
+}
+
+.ayah-container {
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.back-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    background-color: #2980b9;
+}
+
+.hidden {
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px 0 0 4px;
+}
+
+#search-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #2980b9;
+}
+
+.search-results {
+    margin-top: 20px;
+}
+
+.search-result-item {
+    background-color: #ecf0f1;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-result-item:hover {
+    background-color: #bdc3c7;
+}
+
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3498db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#splash-text {
+    font-family: 'Carattere', cursive;
+    font-size: 48px;
+    color: white;
+    text-align: center;
+}
+
+#user-stats {
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+#user-stats p {
+    margin: 5px 0;
+}
+
+.reset-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.reset-button:hover {
+    background-color: #c0392b;
+}
+
+/* Improved Offline Reading Section */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.offline-surah-item {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.offline-surah-info {
+    font-size: 14px;
+    color: #666;
+}
+
+.offline-surah-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.offline-surah-buttons button {
+    flex: 1 0 auto;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.read-offline-button {
+    background-color: #3498db;
+    color: white;
+}
+
+.update-offline-button {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.remove-offline-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.offline-surah-buttons button:hover {
+    opacity: 0.8;
+}
+
+progress {
+    width: 100%;
+    height: 5px;
+    margin-top: 5px;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+}
+
+body.dark-mode .section {
+    background-color: #2c2c2c;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+    color: #f0f0f0;
+}
+
+body.dark-mode .ayah, body.dark-mode .translation {
+    color: #f0f0f0;
+}
+
+body.dark-mode .surah-list li, body.dark-mode .back-button, 
+body.dark-mode #search-button, body.dark-mode .share-button, 
+body.dark-mode .bookmark-button, body.dark-mode .download-button {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .surah-list li:hover, body.dark-mode .back-button:hover, 
+body.dark-mode #search-button:hover, body.dark-mode .share-button:hover, 
+body.dark-mode .bookmark-button:hover, body.dark-mode .download-button:hover {
+    background-color: #4a4a4a;
+}
+
+/* Sepia Mode */
+body.sepia-mode {
+    background-color: #f4ecd8;
+    color: #5b4636;
+}
+
+body.sepia-mode .section {
+    background-color: #e8dcb5;
+}
+
+body.sepia-mode h1, body.sepia-mode h2 {
+    color: #704214;
+}
+
+body.sepia-mode .ayah, body.sepia-mode .translation {
+    color: #5b4636;
+}
+
+body.sepia-mode .surah-list li, body.sepia-mode .back-button, 
+body.sepia-mode #search-button, body.sepia-mode .share-button, 
+body.sepia-mode .bookmark-button, body.sepia-mode .download-button {
+    background-color: #c4b7a6;
+    color: #5b4636;
+}
+
+body.sepia-mode .surah-list li:hover, body.sepia-mode .back-button:hover, 
+body.sepia-mode #search-button:hover, body.sepia-mode .share-button:hover, 
+body.sepia-mode .bookmark-button:hover, body.sepia-mode .download-button:hover {
+    background-color: #b0a491;
+}
+
+/* Night Mode */
+body.night-mode {
+    background-color: #0a0a0a;
+    color: #c2c2c2;
+}
+
+body.night-mode .section {
+    background-color: #1c1c1c;
+}
+
+body.night-mode h1, body.night-mode h2 {
+    color: #e0e0e0;
+}
+
+body.night-mode .ayah, body.night-mode .translation {
+    color: #c2c2c2;
+}
+
+body.night-mode .surah-list li, body.night-mode .back-button, 
+body.night-mode #search-button, body.night-mode .share-button, 
+body.night-mode .bookmark-button, body.night-mode .download-button {
+    background-color: #2a2a2a;
+    color: #c2c2c2;
+}
+
+body.night-mode .surah-list li:hover, body.night-mode .back-button:hover, 
+body.night-mode #search-button:hover, body.night-mode .share-button:hover, 
+body.night-mode .bookmark-button:hover, body.night-mode .download-button:hover {
+    background-color: #3a3a3a;
+}
+
+/* Toggle button styles */
+.toggle-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.toggle-button:hover {
+    background-color: #2980b9;
+}
+
+.setting-item {
+    margin-bottom: 10px;
+}
+
+.setting-item label {
+    margin-right: 10px;
+}
+
+.section-content {
+    display: none;
+}
+
+.section-content.active {
+    display: block;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.mobile-menu.open {
+    left: 0;
+}
+
+.mobile-menu-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+.mobile-menu-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+}
+
+.mobile-menu-items {
+    padding: 20px;
+}
+
+.mobile-menu-items button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+}
+</style></head><body>
+<button class="mobile-menu-toggle">☰</button>
+<div class="mobile-menu">
+    <button class="mobile-menu-close">&times;</button>
+    <div class="mobile-menu-items">
+        <button id="mobile-bookmarks-button">Bookmarks</button>
+        <button id="mobile-user-profile-button">User Profile</button>
+        <button id="mobile-settings-button">Settings</button>
+        <button id="mobile-offline-reading-button">Offline Reading</button>
+    </div>
+</div>
+<div id="splash-screen">
+    <div id="splash-text">Developed by Ahadi</div>
+</div>
+<div class="container">
+    <h1>Enhanced Quran App with Search</h1>
+    
+    <div class="header-buttons">
+        <button id="bookmarks-button" class="header-button">Bookmarks</button>
+        <button id="user-profile-button" class="header-button">User Profile</button>
+        <button id="settings-button" class="header-button">Settings</button>
+        <button id="offline-reading-button" class="header-button">Offline Reading</button>
+    </div>
+
+    <div id="bookmarks-section" class="section section-content">
+        <h2>Bookmarks</h2>
+        <ul class="bookmark-list" id="bookmark-list"></ul>
+    </div>
+
+    <div id="user-profile-section" class="section section-content">
+        <h2>User Profile</h2>
+        <div id="user-stats"></div>
+        <button id="reset-profile" class="reset-button">Reset Profile</button>
+    </div>
+
+    <div id="settings-section" class="section section-content">
+        <h2>Settings</h2>
+        <div id="settings-content">
+            <div class="setting-item">
+                <label for="dark-mode-toggle">Dark Mode:</label>
+                <input type="checkbox" id="dark-mode-toggle">
+            </div>
+            <div class="setting-item">
+                <label for="color-scheme">Color Scheme:</label>
+                <select id="color-scheme">
+                    <option value="default">Default</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="night">Night</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="search-section">
+        <h2>Search Quran</h2>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search for ayah in English or Arabic">
+            <button id="search-button">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+    </div>
+    
+    <div id="offline-reading-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Offline Reading</h2>
+            <button id="download-all-surahs" class="download-button">Download All Surahs</button>
+            <progress id="download-progress" value="0" max="100" style="display:none;"></progress>
+            <ul id="offline-surah-list"></ul>
+        </div>
+    </div>
+
+    <div class="section" id="surah-section">
+        <h2>Surah List</h2>
+        <button id="back-to-surah-list" class="back-button hidden">Back to Surah List</button>
+        <div id="surah-content"></div>
+        <ul class="surah-list" id="surah-list"></ul>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+let currentSurah = null;
+let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+let quranData = [];
+let user = JSON.parse(localStorage.getItem('user')) || {
+    versesRead: 0,
+    surahsCompleted: 0,
+    lastReadSurah: null,
+    lastReadAyah: null
+};
+
+let settings = JSON.parse(localStorage.getItem('settings')) || {
+    darkMode: false,
+    colorScheme: 'default'
+};
+
+// Cache system
+const cache = {
+    set: (key, value) => {
+        try {
+            const serializedValue = JSON.stringify(value);
+            localStorage.setItem(key, serializedValue);
+        } catch (error) {
+            console.error('Error storing data in cache:', error);
+        }
+    },
+    get: (key) => {
+        try {
+            const serializedValue = localStorage.getItem(key);
+            return serializedValue ? JSON.parse(serializedValue) : null;
+        } catch (error) {
+            console.error('Error retrieving data from cache:', error);
+            return null;
+        }
+    },
+    remove: (key) => {
+        localStorage.removeItem(key);
+    }
+};
+
+async function fetchSurahList() {
+    try {
+        const response = await axios.get('https://api.alquran.cloud/v1/surah');
+        const surahs = response.data.data;
+        const surahList = document.getElementById('surah-list');
+        surahs.forEach(surah => {
+            const li = document.createElement('li');
+            li.textContent = `${surah.number}. ${surah.englishName}`;
+            const detailsDiv = document.createElement('div');
+            detailsDiv.className = 'surah-details hidden';
+            detailsDiv.textContent = `Verses: ${surah.numberOfAyahs}, Revelation: ${surah.revelationType}`;
+            
+            const downloadButton = document.createElement('button');
+            downloadButton.textContent = 'Download';
+            downloadButton.className = 'download-button';
+            downloadButton.onclick = (e) => {
+                e.stopPropagation();
+                downloadSurah(surah.number);
+            };
+            
+            detailsDiv.appendChild(downloadButton);
+            li.appendChild(detailsDiv);
+            li.onclick = () => {
+                if (detailsDiv.classList.contains('hidden')) {
+                    detailsDiv.classList.remove('hidden');
+                } else {
+                    loadSurah(surah.number);
+                }
+            };
+            surahList.appendChild(li);
+        });
+    } catch (error) {
+        console.error('Error fetching surah list:', error);
+    }
+}
+
+// Modify the downloadSurah function to return a promise
+async function downloadSurah(surahNumber) {
+    try {
+        const [arabicResponse, translationResponse, infoResponse] = await Promise.all([
+            axios.get(`https://api.alquran.cloud/v1/surah/${surahNumber}`),
+            axios.get(`https://api.alquran.cloud/v1/surah/${surahNumber}/en.asad`),
+            axios.get(`https://api.alquran.cloud/v1/surah/${surahNumber}/information`)
+        ]);
+        
+        const arabicSurah = arabicResponse.data.data;
+        const translationSurah = translationResponse.data.data;
+        const surahInfo = infoResponse.data.data;
+        
+        const surahData = {
+            number: arabicSurah.number,
+            name: arabicSurah.name,
+            englishName: arabicSurah.englishName,
+            englishNameTranslation: arabicSurah.englishNameTranslation,
+            numberOfAyahs: arabicSurah.numberOfAyahs,
+            revelationType: arabicSurah.revelationType,
+            information: surahInfo,
+            ayahs: arabicSurah.ayahs.map((ayah, index) => ({
+                ...ayah,
+                translation: translationSurah.ayahs[index].text
+            }))
+        };
+        
+        cache.set(`offline-surah-${surahNumber}`, surahData);
+    } catch (error) {
+        console.error('Error downloading surah:', error);
+        throw error;
+    }
+}
+
+async function downloadAllSurahs() {
+    const totalSurahs = 114;
+    const progressBar = document.createElement('progress');
+    progressBar.max = totalSurahs;
+    progressBar.value = 0;
+    
+    const downloadAllButton = document.getElementById('download-all-surahs');
+    downloadAllButton.disabled = true;
+    downloadAllButton.parentNode.insertBefore(progressBar, downloadAllButton.nextSibling);
+
+    for (let i = 1; i <= totalSurahs; i++) {
+        try {
+            await downloadSurah(i);
+            progressBar.value = i;
+        } catch (error) {
+            console.error(`Error downloading surah ${i}:`, error);
+        }
+    }
+
+    progressBar.remove();
+    downloadAllButton.disabled = false;
+    alert('All surahs have been downloaded for offline reading.');
+    updateOfflineReadingSection();
+}
+
+// Add these functions to handle the new offline reading modal
+function openOfflineReadingModal() {
+    const modal = document.getElementById('offline-reading-modal');
+    modal.style.display = 'block';
+    updateOfflineReadingSection();
+}
+
+function closeOfflineReadingModal() {
+    const modal = document.getElementById('offline-reading-modal');
+    modal.style.display = 'none';
+}
+
+// Update the updateOfflineReadingSection function
+function updateOfflineReadingSection() {
+    const offlineSurahList = document.getElementById('offline-surah-list');
+    offlineSurahList.innerHTML = '';
+    
+    const downloadedSurahs = Object.keys(localStorage)
+        .filter(key => key.startsWith('offline-surah-'))
+        .map(key => {
+            const surahNumber = key.split('-')[2];
+            return cache.get(key);
+        })
+        .sort((a, b) => a.number - b.number);
+    
+    if (downloadedSurahs.length === 0) {
+        offlineSurahList.innerHTML = '<li>No offline surahs available. Download surahs to read offline.</li>';
+        return;
+    }
+    
+    downloadedSurahs.forEach(surahData => {
+        const li = document.createElement('li');
+        li.className = 'offline-surah-item';
+        li.innerHTML = `
+            <span class="offline-surah-name">${surahData.number}. ${surahData.englishName} (${surahData.name})</span>
+            <span class="offline-surah-info">${surahData.numberOfAyahs} ayahs | ${surahData.revelationType}</span>
+            <div class="offline-surah-buttons">
+                <button class="read-offline-button">Read</button>
+                <button class="update-offline-button">Update</button>
+                <button class="remove-offline-button">Remove</button>
+            </div>
+        `;
+        
+        li.querySelector('.read-offline-button').onclick = () => {
+            loadSurah(surahData.number, true);
+            closeOfflineReadingModal();
+        };
+        li.querySelector('.update-offline-button').onclick = () => updateOfflineSurah(surahData.number);
+        li.querySelector('.remove-offline-button').onclick = () => removeOfflineSurah(surahData.number);
+        
+        offlineSurahList.appendChild(li);
+    });
+}
+
+// Modify the loadSurah function
+async function loadSurah(surahNumber, offline = false) {
+    try {
+        let surahData;
+        
+        if (offline) {
+            surahData = cache.get(`offline-surah-${surahNumber}`);
+            if (!surahData) {
+                throw new Error('Surah not found in offline storage');
+            }
+        } else {
+            surahData = cache.get(`offline-surah-${surahNumber}`);
+            if (!surahData) {
+                const [arabicResponse, translationResponse, infoResponse] = await Promise.all([
+                    axios.get(`https://api.alquran.cloud/v1/surah/${surahNumber}`),
+                    axios.get(`https://api.alquran.cloud/v1/surah/${surahNumber}/en.asad`),
+                    axios.get(`https://api.alquran.cloud/v1/surah/${surahNumber}/information`)
+                ]);
+                
+                const arabicSurah = arabicResponse.data.data;
+                const translationSurah = translationResponse.data.data;
+                const surahInfo = infoResponse.data.data;
+                
+                surahData = {
+                    number: arabicSurah.number,
+                    name: arabicSurah.name,
+                    englishName: arabicSurah.englishName,
+                    englishNameTranslation: arabicSurah.englishNameTranslation,
+                    numberOfAyahs: arabicSurah.numberOfAyahs,
+                    revelationType: arabicSurah.revelationType,
+                    information: surahInfo,
+                    ayahs: arabicSurah.ayahs.map((ayah, index) => ({
+                        ...ayah,
+                        translation: translationSurah.ayahs[index].text
+                    }))
+                };
+            }
+        }
+        
+        currentSurah = surahData;
+        displaySurah(currentSurah);
+        document.getElementById('surah-list').classList.add('hidden');
+        document.getElementById('back-to-surah-list').classList.remove('hidden');
+    } catch (error) {
+        console.error('Error loading surah:', error);
+        alert('Failed to load surah. Please try again.');
+    }
+}
+
+function updateUserProgress(surahNumber, ayahNumber) {
+    user.versesRead++;
+    user.lastReadSurah = surahNumber;
+    user.lastReadAyah = ayahNumber;
+    
+    if (ayahNumber === currentSurah.ayahs.length) {
+        user.surahsCompleted++;
+    }
+    
+    localStorage.setItem('user', JSON.stringify(user));
+    updateUserProfileDisplay();
+}
+
+function updateUserProfileDisplay() {
+    const userStats = document.getElementById('user-stats');
+    userStats.innerHTML = `
+        <p>Verses Read: ${user.versesRead}</p>
+        <p>Surahs Completed: ${user.surahsCompleted}</p>
+        <p>Last Read: Surah ${user.lastReadSurah || '-'}, Ayah ${user.lastReadAyah || '-'}</p>
+    `;
+}
+
+function displaySurah(surah) {
+    const surahContent = document.getElementById('surah-content');
+    surahContent.innerHTML = '';
+    
+    const surahTitle = document.createElement('h2');
+    surahTitle.textContent = `${surah.number}. ${surah.name} (${surah.englishName})`;
+    surahContent.appendChild(surahTitle);
+    
+    surah.ayahs.forEach(ayah => {
+        const ayahContainer = document.createElement('div');
+        ayahContainer.className = 'ayah-container';
+        
+        const ayahText = document.createElement('div');
+        ayahText.className = 'ayah';
+        ayahText.textContent = ayah.text;
+        
+        const translation = document.createElement('div');
+        translation.className = 'translation';
+        translation.textContent = ayah.translation;
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+        
+        const bookmarkButton = document.createElement('button');
+        bookmarkButton.className = 'bookmark-button';
+        bookmarkButton.textContent = 'Bookmark';
+        bookmarkButton.onclick = () => bookmarkAyah(ayah);
+        
+        const shareButton = document.createElement('button');
+        shareButton.className = 'share-button';
+        shareButton.textContent = 'Share to WhatsApp';
+        shareButton.onclick = () => shareAyah(ayah);
+        
+        const detailsButton = document.createElement('button');
+        detailsButton.className = 'details-button';
+        detailsButton.textContent = 'Show Details';
+        
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'ayah-details hidden';
+        detailsDiv.innerHTML = `
+            <p>Juz: ${ayah.juz}</p>
+            <p>Manzil: ${ayah.manzil}</p>
+            <p>Page: ${ayah.page}</p>
+        `;
+
+        detailsButton.onclick = (e) => {
+            e.stopPropagation();
+            if (detailsDiv.classList.contains('hidden')) {
+                detailsDiv.classList.remove('hidden');
+                detailsButton.textContent = 'Hide Details';
+            } else {
+                detailsDiv.classList.add('hidden');
+                detailsButton.textContent = 'Show Details';
+            }
+        };
+
+        buttonContainer.appendChild(bookmarkButton);
+        buttonContainer.appendChild(shareButton);
+        buttonContainer.appendChild(detailsButton);
+        
+        ayahContainer.appendChild(ayahText);
+        ayahContainer.appendChild(translation);
+        ayahContainer.appendChild(buttonContainer);
+        ayahContainer.appendChild(detailsDiv);
+        
+        ayahContainer.addEventListener('click', () => {
+            updateUserProgress(surah.number, ayah.numberInSurah);
+        });
+        
+        surahContent.appendChild(ayahContainer);
+    });
+}
+
+function bookmarkAyah(ayah) {
+    const bookmark = {
+        surah: currentSurah.number,
+        ayah: ayah.numberInSurah,
+        text: ayah.text.substring(0, 50) + '...'
+    };
+    bookmarks.push(bookmark);
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    updateBookmarkList();
+}
+
+function updateBookmarkList() {
+    const bookmarkList = document.getElementById('bookmark-list');
+    bookmarkList.innerHTML = '';
+    bookmarks.forEach((bookmark, index) => {
+        const li = document.createElement('li');
+        li.textContent = `Surah ${bookmark.surah}, Ayah ${bookmark.ayah}: ${bookmark.text}`;
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = () => removeBookmark(index);
+        li.appendChild(removeButton);
+        bookmarkList.appendChild(li);
+    });
+}
+
+function removeBookmark(index) {
+    bookmarks.splice(index, 1);
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    updateBookmarkList();
+}
+
+function shareAyah(ayah) {
+    const text = encodeURIComponent(`${ayah.text}\n\n${ayah.translation}\n\nSurah ${currentSurah.number}, Ayah ${ayah.numberInSurah}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+document.getElementById('back-to-surah-list').addEventListener('click', () => {
+    document.getElementById('surah-list').classList.remove('hidden');
+    document.getElementById('back-to-surah-list').classList.add('hidden');
+    document.getElementById('surah-content').innerHTML = '';
+});
+
+async function fetchQuranData() {
+    try {
+        const [arabicResponse, translationResponse] = await Promise.all([
+            axios.get('https://api.alquran.cloud/v1/quran/quran-uthmani'),
+            axios.get('https://api.alquran.cloud/v1/quran/en.asad')
+        ]);
+        
+        const arabicQuran = arabicResponse.data.data.surahs;
+        const translationQuran = translationResponse.data.data.surahs;
+        
+        quranData = arabicQuran.map((surah, surahIndex) => ({
+            ...surah,
+            ayahs: surah.ayahs.map((ayah, ayahIndex) => ({
+                ...ayah,
+                translation: translationQuran[surahIndex].ayahs[ayahIndex].text
+            }))
+        }));
+    } catch (error) {
+        console.error('Error fetching Quran data:', error);
+    }
+}
+
+function searchQuran(query) {
+    const results = [];
+    quranData.forEach(surah => {
+        surah.ayahs.forEach(ayah => {
+            if (ayah.text.includes(query) || ayah.translation.toLowerCase().includes(query.toLowerCase())) {
+                results.push({
+                    surah: surah.number,
+                    ayah: ayah.numberInSurah,
+                    text: ayah.text,
+                    translation: ayah.translation
+                });
+            }
+        });
+    });
+    return results;
+}
+
+function displaySearchResults(results) {
+    const searchResults = document.getElementById('search-results');
+    searchResults.innerHTML = '';
+    
+    if (results.length === 0) {
+        searchResults.textContent = 'No results found.';
+        return;
+    }
+    
+    results.forEach(result => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'search-result-item';
+        resultItem.innerHTML = `
+            <strong>Surah ${result.surah}, Ayah ${result.ayah}</strong><br>
+            <span class="ayah">${result.text}</span><br>
+            <span class="translation">${result.translation}</span>
+        `;
+        resultItem.onclick = () => loadSurah(result.surah);
+        searchResults.appendChild(resultItem);
+    });
+}
+
+document.getElementById('search-button').addEventListener('click', () => {
+    const query = document.getElementById('search-input').value;
+    if (query.trim() !== '') {
+        const results = searchQuran(query);
+        displaySearchResults(results);
+    }
+});
+
+document.getElementById('search-input').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        document.getElementById('search-button').click();
+    }
+});
+
+function hideSplashScreen() {
+    const splashScreen = document.getElementById('splash-screen');
+    splashScreen.classList.add('hidden');
+}
+
+function resetUserProfile() {
+    if (confirm("Are you sure you want to reset your profile? This action cannot be undone.")) {
+        user = {
+            versesRead: 0,
+            surahsCompleted: 0,
+            lastReadSurah: null,
+            lastReadAyah: null
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        updateUserProfileDisplay();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchSurahList();
+    updateBookmarkList();
+    fetchQuranData();
+    updateUserProfileDisplay();
+    updateOfflineReadingSection();
+    
+    document.getElementById('reset-profile').addEventListener('click', resetUserProfile);
+    
+    setTimeout(hideSplashScreen, 2000);
+
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const colorSchemeSelect = document.getElementById('color-scheme');
+
+    darkModeToggle.checked = settings.darkMode;
+    colorSchemeSelect.value = settings.colorScheme;
+
+    darkModeToggle.addEventListener('change', () => {
+        settings.darkMode = darkModeToggle.checked;
+        updateSettings();
+    });
+
+    colorSchemeSelect.addEventListener('change', () => {
+        settings.colorScheme = colorSchemeSelect.value;
+        updateSettings();
+    });
+
+    // Add event listeners for the new buttons
+    document.getElementById('bookmarks-button').addEventListener('click', () => toggleSection('bookmarks-section'));
+    document.getElementById('user-profile-button').addEventListener('click', () => toggleSection('user-profile-section'));
+    document.getElementById('settings-button').addEventListener('click', () => toggleSection('settings-section'));
+    document.getElementById('offline-reading-button').addEventListener('click', openOfflineReadingModal);
+    document.getElementById('download-all-surahs').addEventListener('click', downloadAllSurahs);
+
+    applySettings();
+    setupMobileMenu();
+    addTouchListeners();
+});
+
+// Update the settings
+function updateSettings() {
+    localStorage.setItem('settings', JSON.stringify(settings));
+    applySettings();
+}
+
+function applySettings() {
+    document.body.classList.toggle('dark-mode', settings.darkMode);
+    document.body.classList.remove('sepia-mode', 'night-mode');
+    if (settings.colorScheme !== 'default') {
+        document.body.classList.add(`${settings.colorScheme}-mode`);
+    }
+}
+
+function toggleSection(sectionId) {
+    const sections = document.querySelectorAll('.section-content');
+    sections.forEach(section => {
+        if (section.id === sectionId) {
+            section.classList.toggle('active');
+        } else {
+            section.classList.remove('active');
+        }
+    });
+}
+
+function setupMobileMenu() {
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const menuClose = document.querySelector('.mobile-menu-close');
+    const menu = document.querySelector('.mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+        menu.classList.add('open');
+    });
+
+    menuClose.addEventListener('click', () => {
+        menu.classList.remove('open');
+    });
+
+    // Setup mobile menu buttons
+    document.getElementById('mobile-bookmarks-button').addEventListener('click', () => {
+        toggleSection('bookmarks-section');
+        menu.classList.remove('open');
+    });
+    document.getElementById('mobile-user-profile-button').addEventListener('click', () => {
+        toggleSection('user-profile-section');
+        menu.classList.remove('open');
+    });
+    document.getElementById('mobile-settings-button').addEventListener('click', () => {
+        toggleSection('settings-section');
+        menu.classList.remove('open');
+    });
+    document.getElementById('mobile-offline-reading-button').addEventListener('click', () => {
+        openOfflineReadingModal();
+        menu.classList.remove('open');
+    });
+}
+
+function addTouchListeners() {
+    const elements = document.querySelectorAll('.surah-list li, .bookmark-list li, .search-result-item, .offline-surah-item');
+    elements.forEach(element => {
+        element.addEventListener('touchstart', handleTouchStart, false);
+        element.addEventListener('touchend', handleTouchEnd, false);
+    });
+}
+
+function handleTouchStart(event) {
+    this.classList.add('touch-active');
+}
+
+function handleTouchEnd(event) {
+    this.classList.remove('touch-active');
+    // Trigger the click event
+    this.click();
+}
+
+document.querySelector('.close-modal').addEventListener('click', closeOfflineReadingModal);
+</script>
+</body></html>
